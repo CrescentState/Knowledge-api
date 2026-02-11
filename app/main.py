@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from loguru import logger
 
 from app.api.v1.router import router as api_v1_router
 from app.core.config import settings
@@ -14,11 +15,11 @@ state = {}
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # --- Startup Logic ---
-    print("🚀 Initializing Heavy AI Models (Docling)...")
+    logger.info("🚀 Initializing Heavy AI Models (Docling)...")
     app.state.processor = DocumentProcessor()
     yield
     # --- Shutdown Logic ---
-    print("🛑 Cleaning up resources...")
+    logger.info("🛑 Cleaning up resources...")
     state.clear()
 
 
