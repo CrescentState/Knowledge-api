@@ -1,6 +1,6 @@
 # .ruff.toml
 target-version = "py312"
-line-length = 88
+line-length = 100
 
 [lint]
 # List of rules to enable
