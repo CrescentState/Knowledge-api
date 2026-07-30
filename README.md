@@ -38,7 +38,7 @@ A FastAPI prototype for asynchronous PDF document processing. Upload a PDF, get 
 | Validation       | Pydantic + Pydantic Settings |
 | Logging          | Loguru                       |
 | Server           | Uvicorn                      |
-| Packaging        | uv                           |
+| Packaging        | 0uv                          |
 | Container        | Docker (multi-stage build)   |
 
 

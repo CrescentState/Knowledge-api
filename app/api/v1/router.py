@@ -32,8 +32,6 @@ async def process_document_task(processor: object, file_path: Path, original_nam
 async def upload_document(
     request: Request, background_tasks: BackgroundTasks, file: UploadFile = None
 ) -> dict:
-    if file is None:
-        file = File(...)
 
     if not file.filename.endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Invalid file type.")

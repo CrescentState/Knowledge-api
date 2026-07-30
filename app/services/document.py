@@ -1,5 +1,7 @@
 import time
+import asyncio
 from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor
 
 from docling.document_converter import DocumentConverter
 from loguru import logger
@@ -10,10 +12,17 @@ from app.schemas.document import ExtractionResult
 class DocumentProcessor:
     def __init__(self) -> None:
         logger.info("Initializing DocumentProcessor with Docling models...")
+        self._executor = ThreadPoolExecutor(max_workers=2)
         self.converter = DocumentConverter()
+        
 
     async def process_pdf(self, file_path: Path) -> ExtractionResult:
         # "Bind" the filename to all logs in this scope
+        loop = asyncio.get_event_loop()
+        result = await loop.run_in_executor(
+        self._executor, self.converter.convert, file_path
+        )
+
         log = logger.bind(filename=file_path.name)
 
         log.info(f"Starting extraction for: {file_path.name}")
@@ -41,7 +50,7 @@ class DocumentProcessor:
             return ExtractionResult(
                 content=result.document.export_to_markdown(),
                 page_count=page_count,
-                metadata=result.document.metadata.dict()
+                metadata=result.document.metadata.model_dump()
                 if hasattr(result.document, "metadata")
                 else {},
                 processing_time_seconds=round(total_duration, 2),

@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
 
     # Environment Logic
-    DEBUG: bool = False
+    DEBUG: bool = True
 
     # This will be crucial for Phase 2 (LLMs)
     # Marking it as optional for now so the app starts without it

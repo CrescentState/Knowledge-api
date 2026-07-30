@@ -1,23 +1,61 @@
-2026-02-13 15:48:11.333 | INFO     | app.main:lifespan:21 - 🚀 Initializing Heavy AI Models (Docling)...
-2026-02-13 15:48:11.334 | INFO     | app.services.document:__init__:12 - Initializing DocumentProcessor with Docling models...
-2026-02-13 15:48:30.778 | INFO     | app.api.v1.router:process_document_task:13 - Background processing started for Student Coordinators DL.pdf
-2026-02-13 15:48:30.779 | ERROR    | app.api.v1.router:process_document_task:23 - Background processing failed for Student Coordinators DL.pdf: 'coroutine' object has no attribute 'content'
-2026-02-13 15:48:30.779 | DEBUG    | app.api.v1.router:process_document_task:28 - Temporary file temp_Student Coordinators DL.pdf removed.
-2026-02-13 15:49:55.238 | INFO     | app.main:lifespan:25 - 🛑 Cleaning up resources...
-2026-02-13 15:50:15.334 | INFO     | app.main:lifespan:21 - 🚀 Initializing Heavy AI Models (Docling)...
-2026-02-13 15:50:15.338 | INFO     | app.services.document:__init__:12 - Initializing DocumentProcessor with Docling models...
-2026-02-13 15:50:37.130 | INFO     | app.api.v1.router:process_document_task:13 - Background processing started for Student Coordinators DL.pdf
-2026-02-13 15:50:37.131 | INFO     | app.services.document:process_pdf:19 - Starting extraction for: temp_Student Coordinators DL.pdf
-2026-02-13 15:51:07.254 | SUCCESS  | app.services.document:process_pdf:36 - Extraction complete for temp_Student Coordinators DL.pdf
-2026-02-13 15:51:07.256 | INFO     | app.services.document:process_pdf:37 - Total Pages: 1
-2026-02-13 15:51:07.256 | INFO     | app.services.document:process_pdf:38 - Total Time: 29.61s
-2026-02-13 15:51:07.257 | INFO     | app.services.document:process_pdf:39 - Avg Time Per Page: 29.61s
-2026-02-13 15:51:07.382 | SUCCESS  | app.api.v1.router:process_document_task:18 - Background processing complete: 1107 characters extracted.
-2026-02-13 15:51:07.383 | DEBUG    | app.api.v1.router:process_document_task:28 - Temporary file temp_Student Coordinators DL.pdf removed.
-2026-02-13 15:52:10.714 | INFO     | app.main:lifespan:25 - 🛑 Cleaning up resources...
-2026-02-14 16:54:23.876 | INFO     | app.api.v1.router:process_document_task:13 - Background processing started for test.pdf
-2026-02-14 16:54:23.877 | SUCCESS  | app.api.v1.router:process_document_task:18 - Background processing complete: 14 characters extracted.
-2026-02-14 16:54:23.877 | DEBUG    | app.api.v1.router:process_document_task:28 - Temporary file temp_test.pdf removed.
-2026-02-14 16:57:00.040 | INFO     | app.api.v1.router:process_document_task:13 - Background processing started for test.pdf
-2026-02-14 16:57:00.041 | SUCCESS  | app.api.v1.router:process_document_task:18 - Background processing complete: 14 characters extracted.
-2026-02-14 16:57:00.041 | DEBUG    | app.api.v1.router:process_document_task:28 - Temporary file temp_test.pdf removed.
+2026-07-29 14:29:19.585 | INFO     | app.services.document:__init__:14 - Initializing DocumentProcessor with Docling models...
+2026-07-29 14:29:19.585 | INFO     | app.services.document:__init__:14 - Initializing DocumentProcessor with Docling models...
+2026-07-29 14:30:30.396 | INFO     | app.api.v1.router:process_document_task:13 - Background processing started for A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:30:30.396 | INFO     | app.api.v1.router:process_document_task:13 - Background processing started for A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:30:38.282 | INFO     | app.services.document:process_pdf:28 - Starting extraction for: temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:30:38.282 | INFO     | app.services.document:process_pdf:28 - Starting extraction for: temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:30:43.164 | SUCCESS  | app.services.document:process_pdf:45 - Extraction complete for temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:30:43.164 | SUCCESS  | app.services.document:process_pdf:45 - Extraction complete for temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:30:43.164 | INFO     | app.services.document:process_pdf:46 - Total Pages: 6
+2026-07-29 14:30:43.164 | INFO     | app.services.document:process_pdf:46 - Total Pages: 6
+2026-07-29 14:30:43.164 | INFO     | app.services.document:process_pdf:47 - Total Time: 4.88s
+2026-07-29 14:30:43.164 | INFO     | app.services.document:process_pdf:47 - Total Time: 4.88s
+2026-07-29 14:30:43.164 | INFO     | app.services.document:process_pdf:48 - Avg Time Per Page: 0.81s
+2026-07-29 14:30:43.164 | INFO     | app.services.document:process_pdf:48 - Avg Time Per Page: 0.81s
+2026-07-29 14:30:43.187 | SUCCESS  | app.api.v1.router:process_document_task:18 - Background processing complete: 20120 characters extracted.
+2026-07-29 14:30:43.187 | SUCCESS  | app.api.v1.router:process_document_task:18 - Background processing complete: 20120 characters extracted.
+2026-07-29 14:30:43.187 | DEBUG    | app.api.v1.router:process_document_task:28 - Temporary file temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf removed.
+2026-07-29 14:30:43.187 | DEBUG    | app.api.v1.router:process_document_task:28 - Temporary file temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf removed.
+2026-07-29 14:32:06.072 | INFO     | app.api.v1.router:process_document_task:13 - Background processing started for A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:32:06.072 | INFO     | app.api.v1.router:process_document_task:13 - Background processing started for A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:32:11.070 | INFO     | app.services.document:process_pdf:28 - Starting extraction for: temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:32:11.070 | INFO     | app.services.document:process_pdf:28 - Starting extraction for: temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:32:16.052 | SUCCESS  | app.services.document:process_pdf:45 - Extraction complete for temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:32:16.052 | SUCCESS  | app.services.document:process_pdf:45 - Extraction complete for temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:32:16.052 | INFO     | app.services.document:process_pdf:46 - Total Pages: 6
+2026-07-29 14:32:16.052 | INFO     | app.services.document:process_pdf:46 - Total Pages: 6
+2026-07-29 14:32:16.052 | INFO     | app.services.document:process_pdf:47 - Total Time: 4.98s
+2026-07-29 14:32:16.052 | INFO     | app.services.document:process_pdf:47 - Total Time: 4.98s
+2026-07-29 14:32:16.052 | INFO     | app.services.document:process_pdf:48 - Avg Time Per Page: 0.83s
+2026-07-29 14:32:16.052 | INFO     | app.services.document:process_pdf:48 - Avg Time Per Page: 0.83s
+2026-07-29 14:32:16.061 | SUCCESS  | app.api.v1.router:process_document_task:18 - Background processing complete: 20120 characters extracted.
+2026-07-29 14:32:16.061 | SUCCESS  | app.api.v1.router:process_document_task:18 - Background processing complete: 20120 characters extracted.
+2026-07-29 14:32:16.061 | DEBUG    | app.api.v1.router:process_document_task:28 - Temporary file temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf removed.
+2026-07-29 14:32:16.061 | DEBUG    | app.api.v1.router:process_document_task:28 - Temporary file temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf removed.
+2026-07-29 14:33:12.615 | INFO     | app.api.v1.router:process_document_task:13 - Background processing started for A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:33:12.615 | INFO     | app.api.v1.router:process_document_task:13 - Background processing started for A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:33:17.573 | INFO     | app.services.document:process_pdf:28 - Starting extraction for: temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:33:17.573 | INFO     | app.services.document:process_pdf:28 - Starting extraction for: temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:33:22.492 | SUCCESS  | app.services.document:process_pdf:45 - Extraction complete for temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:33:22.492 | SUCCESS  | app.services.document:process_pdf:45 - Extraction complete for temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf
+2026-07-29 14:33:22.492 | INFO     | app.services.document:process_pdf:46 - Total Pages: 6
+2026-07-29 14:33:22.492 | INFO     | app.services.document:process_pdf:46 - Total Pages: 6
+2026-07-29 14:33:22.492 | INFO     | app.services.document:process_pdf:47 - Total Time: 4.92s
+2026-07-29 14:33:22.492 | INFO     | app.services.document:process_pdf:47 - Total Time: 4.92s
+2026-07-29 14:33:22.492 | INFO     | app.services.document:process_pdf:48 - Avg Time Per Page: 0.82s
+2026-07-29 14:33:22.492 | INFO     | app.services.document:process_pdf:48 - Avg Time Per Page: 0.82s
+2026-07-29 14:33:22.500 | SUCCESS  | app.api.v1.router:process_document_task:18 - Background processing complete: 20120 characters extracted.
+2026-07-29 14:33:22.500 | SUCCESS  | app.api.v1.router:process_document_task:18 - Background processing complete: 20120 characters extracted.
+2026-07-29 14:33:22.500 | DEBUG    | app.api.v1.router:process_document_task:28 - Temporary file temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf removed.
+2026-07-29 14:33:22.500 | DEBUG    | app.api.v1.router:process_document_task:28 - Temporary file temp_A_Semantic_Study_of_Dummy_Subjects_in_Dickens_Nov.pdf removed.
+2026-07-29 14:33:33.323 | INFO     | app.main:lifespan:25 - 🛑 Cleaning up resources...
+2026-07-29 14:33:33.323 | INFO     | app.main:lifespan:25 - 🛑 Cleaning up resources...
+2026-07-29 14:33:43.759 | INFO     | app.main:lifespan:21 - 🚀 Initializing Heavy AI Models (Docling)...
+2026-07-29 14:33:43.760 | INFO     | app.services.document:__init__:14 - Initializing DocumentProcessor with Docling models...
+2026-07-29 14:33:57.997 | INFO     | app.main:lifespan:25 - 🛑 Cleaning up resources...
+2026-07-29 14:34:31.525 | INFO     | app.main:lifespan:21 - 🚀 Initializing Heavy AI Models (Docling)...
+2026-07-29 14:34:31.526 | INFO     | app.services.document:__init__:14 - Initializing DocumentProcessor with Docling models...
+2026-07-29 14:34:39.249 | INFO     | app.main:lifespan:25 - 🛑 Cleaning up resources...
+2026-07-30 10:04:14.316 | INFO     | app.main:lifespan:21 - 🚀 Initializing Heavy AI Models (Docling)...
+2026-07-30 10:04:14.316 | INFO     | app.services.document:__init__:14 - Initializing DocumentProcessor with Docling models...
+2026-07-30 10:04:32.182 | INFO     | app.main:lifespan:25 - 🛑 Cleaning up resources...
