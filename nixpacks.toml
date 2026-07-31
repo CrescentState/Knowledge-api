@@ -1,0 +1,9 @@
+[system]
+aptPkgs = [
+  "libxcb1",
+  "libxkbcommon0",
+  "libxkbfile1",
+  "poppler-utils",
+  "libtesseract-dev",
+  "libleptonica-dev"
+]
