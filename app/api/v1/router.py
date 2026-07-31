@@ -1,4 +1,6 @@
 import shutil
+import tempfile
+import uuid
 from pathlib import Path
 
 from fastapi import APIRouter, BackgroundTasks, File, HTTPException, Request, UploadFile
@@ -30,18 +32,25 @@ async def process_document_task(processor: object, file_path: Path, original_nam
 
 @router.post("/upload", status_code=202)  # 202 = Accepted
 async def upload_document(
-    request: Request, background_tasks: BackgroundTasks, file: UploadFile = None
+    request: Request, background_tasks: BackgroundTasks, file: UploadFile
 ) -> dict:
 
-    if not file.filename.endswith(".pdf"):
+    if not file or not file.filename or not file.filename.endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Invalid file type.")
 
-    # 1. Create a persistent temp path
-    temp_path = Path(f"temp_{file.filename}")
+    # 1. Create a unique, non-predictable temp path in the system temp directory
+    temp_dir = Path(tempfile.gettempdir())
+    temp_path = temp_dir / f"{uuid.uuid4()}_{file.filename}"
 
     # 2. Save the uploaded file to disk
-    with temp_path.open("wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+    try:
+        with temp_path.open("wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+    except Exception as e:
+        logger.error(f"Failed to save uploaded file {file.filename}: {e}")
+        if temp_path.exists():
+            temp_path.unlink()
+        raise HTTPException(status_code=500, detail="Failed to save uploaded file.") from e
 
     # 3. Hand the job over to the background worker
     background_tasks.add_task(
