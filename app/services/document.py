@@ -1,5 +1,4 @@
 import time
-import asyncio
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
@@ -18,11 +17,6 @@ class DocumentProcessor:
 
     async def process_pdf(self, file_path: Path) -> ExtractionResult:
         # "Bind" the filename to all logs in this scope
-        loop = asyncio.get_event_loop()
-        result = await loop.run_in_executor(
-        self._executor, self.converter.convert, file_path
-        )
-
         log = logger.bind(filename=file_path.name)
 
         log.info(f"Starting extraction for: {file_path.name}")
@@ -59,3 +53,14 @@ class DocumentProcessor:
         except Exception as e:
             log.error(f"Failed to process document: {str(e)}")
             raise e
+
+    def shutdown(self) -> None:
+        """Gracefully shut down the thread pool executor."""
+        logger.info("Shutting down DocumentProcessor executor...")
+        self._executor.shutdown(wait=True)
+
+    def __del__(self) -> None:
+        try:
+            self._executor.shutdown(wait=False)
+        except Exception:
+            pass

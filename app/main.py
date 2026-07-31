@@ -23,6 +23,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     yield
     # --- Shutdown Logic ---
     logger.info("🛑 Cleaning up resources...")
+    app.state.processor.shutdown()
     state.clear()
 
 
