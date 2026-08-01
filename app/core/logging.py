@@ -20,7 +20,7 @@ def setup_logging() -> None:
     )
 
     # In a real production environment, we'd add a JSON file handler here
-    logger.add("logs/app.log", rotation="10 MB", retention="10 days", level="DEBUG")
+    # logger.add("logs/app.log", rotation="10 MB", retention="10 days", level="DEBUG")
 
 
 setup_logging()

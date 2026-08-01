@@ -4,14 +4,14 @@ from concurrent.futures import ThreadPoolExecutor
 
 from docling.document_converter import DocumentConverter
 from loguru import logger
+import asyncio
 
 from app.schemas.document import ExtractionResult
 
 
 class DocumentProcessor:
     def __init__(self) -> None:
-        logger.info("Initializing DocumentProcessor with Docling models...")
-        self._executor = ThreadPoolExecutor(max_workers=2)
+        self._executor = ThreadPoolExecutor(max_workers=2)  # ← Created
         self.converter = DocumentConverter()
         
 
@@ -24,7 +24,10 @@ class DocumentProcessor:
 
         try:
             # The conversion process
-            result = self.converter.convert(file_path)
+            loop = asyncio.get_running_loop()
+            result = await loop.run_in_executor(
+            self._executor, self.converter.convert, file_path
+        )
 
             end_time = time.perf_counter()
             total_duration = end_time - start_time
@@ -58,9 +61,3 @@ class DocumentProcessor:
         """Gracefully shut down the thread pool executor."""
         logger.info("Shutting down DocumentProcessor executor...")
         self._executor.shutdown(wait=True)
-
-    def __del__(self) -> None:
-        try:
-            self._executor.shutdown(wait=False)
-        except Exception:
-            pass

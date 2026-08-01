@@ -6,11 +6,13 @@ from pathlib import Path
 from fastapi import APIRouter, BackgroundTasks, File, HTTPException, Request, UploadFile
 from loguru import logger
 
+from app.services.document import DocumentProcessor
+
 router = APIRouter(prefix="/documents", tags=["documents"])
 
 
 # This is the "Worker" function that runs after the response is sent
-async def process_document_task(processor: object, file_path: Path, original_name: str) -> None:
+async def process_document_task(processor: DocumentProcessor, file_path: Path, original_name: str) -> None:
     try:
         logger.info(f"Background processing started for {original_name}")
         result = await processor.process_pdf(file_path)  # Our heavy Docling logic
