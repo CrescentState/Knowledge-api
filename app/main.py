@@ -8,20 +8,17 @@ from loguru import logger
 from app.api.v1.router import router as api_v1_router
 from app.core.config import settings
 from app.core.logging import setup_logging
-from app.services.document import DocumentProcessor
 
 setup_logging()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    # --- Startup Logic ---
-    logger.info("🚀 Initializing Heavy AI Models (Docling)...")
-    app.state.processor = DocumentProcessor()
+    logger.info("🚀 Application startup complete (lazy model loading enabled)")
     yield
-    # --- Shutdown Logic ---
     logger.info("🛑 Cleaning up resources...")
-    app.state.processor.shutdown()
+    if hasattr(app.state, "processor"):
+        app.state.processor.shutdown()
 
 
 app = FastAPI(

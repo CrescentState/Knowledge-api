@@ -1,12 +1,9 @@
-import shutil
 import tempfile
 import uuid
 from pathlib import Path
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, UploadFile
 from loguru import logger
-
-from app.services.document import DocumentProcessor
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 
@@ -17,7 +14,7 @@ ALLOWED_CONTENT_TYPES = {"application/pdf"}
 
 # This is the "Worker" function that runs after the response is sent
 async def process_document_task(
-    processor: DocumentProcessor, file_path: Path, original_name: str
+    processor: object, file_path: Path, original_name: str
 ) -> None:
     try:
         logger.info(f"Background processing started for {original_name}")
@@ -49,7 +46,10 @@ async def upload_document(
     # Validate file extension (basic check)
     safe_filename = Path(file.filename).name  # Prevent path traversal
     if not safe_filename.lower().endswith(".pdf"):
-        raise HTTPException(status_code=400, detail="Invalid file type. Only PDF files are allowed.")
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid file type. Only PDF files are allowed.",
+        )
 
     # Validate content type
     if file.content_type not in ALLOWED_CONTENT_TYPES:
@@ -74,7 +74,10 @@ async def upload_document(
                     temp_path.unlink(missing_ok=True)
                     raise HTTPException(
                         status_code=413,
-                        detail=f"File size exceeds maximum allowed size of {MAX_FILE_SIZE // (1024 * 1024)} MB.",
+                        detail=(
+                            f"File size exceeds maximum allowed size of "
+                            f"{MAX_FILE_SIZE // (1024 * 1024)} MB."
+                        ),
                     )
                 buffer.write(chunk)
     except HTTPException:
@@ -86,6 +89,12 @@ async def upload_document(
         raise HTTPException(status_code=500, detail="Failed to save uploaded file.") from e
 
     # 3. Hand the job over to the background worker
+    # Lazy initialization: create processor on first request
+    if not hasattr(request.app.state, "processor"):
+        from app.services.document import DocumentProcessor
+        request.app.state.processor = DocumentProcessor()
+        logger.info("Initialized DocumentProcessor on first request")
+
     background_tasks.add_task(
         process_document_task, request.app.state.processor, temp_path, safe_filename
     )
