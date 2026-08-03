@@ -12,12 +12,3 @@ class CoreModel(BaseModel):
         arbitrary_types_allowed=True,
         str_strip_whitespace=True,
     )
-
-
-class DocumentMetadata(CoreModel):
-    """Schema for document processing results."""
-
-    filename: str
-    content_type: str = Field(..., pattern="application/pdf|text/html")
-    file_size_bytes: int = Field(gt=0)
-    processed_at: datetime = Field(default_factory=lambda: datetime.now(UTC))

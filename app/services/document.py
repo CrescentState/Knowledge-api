@@ -1,10 +1,10 @@
+import asyncio
 import time
-from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 
 from docling.document_converter import DocumentConverter
 from loguru import logger
-import asyncio
 
 from app.schemas.document import ExtractionResult
 
@@ -13,7 +13,6 @@ class DocumentProcessor:
     def __init__(self) -> None:
         self._executor = ThreadPoolExecutor(max_workers=2)  # ← Created
         self.converter = DocumentConverter()
-        
 
     async def process_pdf(self, file_path: Path) -> ExtractionResult:
         # "Bind" the filename to all logs in this scope
@@ -55,7 +54,7 @@ class DocumentProcessor:
 
         except Exception as e:
             log.error(f"Failed to process document: {str(e)}")
-            raise e
+            raise
 
     def shutdown(self) -> None:
         """Gracefully shut down the thread pool executor."""

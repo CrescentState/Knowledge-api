@@ -10,8 +10,6 @@ from app.core.config import settings
 from app.core.logging import setup_logging
 from app.services.document import DocumentProcessor
 
-state = {}
-
 setup_logging()
 
 
@@ -24,7 +22,6 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # --- Shutdown Logic ---
     logger.info("🛑 Cleaning up resources...")
     app.state.processor.shutdown()
-    state.clear()
 
 
 app = FastAPI(
