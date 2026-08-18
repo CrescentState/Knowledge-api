@@ -3,7 +3,8 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from docling.document_converter import DocumentConverter
+import pymupdf4llm
+import fitz
 from loguru import logger
 
 from app.schemas.document import ExtractionResult
@@ -11,44 +12,43 @@ from app.schemas.document import ExtractionResult
 
 class DocumentProcessor:
     def __init__(self) -> None:
-        self._executor = ThreadPoolExecutor(max_workers=2)  # ← Created
-        self.converter = DocumentConverter()
+        self._executor = ThreadPoolExecutor(max_workers=2)
+
+    def _extract_pdf_data(self, file_path: Path) -> tuple[str, int, dict]:
+        # Extracts clean Markdown using PyMuPDF4LLM
+        content = pymupdf4llm.to_markdown(str(file_path))
+        
+        with fitz.open(file_path) as doc:
+            page_count = len(doc)
+            metadata = dict(doc.metadata) if doc.metadata else {}
+            
+        return content, page_count, metadata
 
     async def process_pdf(self, file_path: Path) -> ExtractionResult:
-        # "Bind" the filename to all logs in this scope
         log = logger.bind(filename=file_path.name)
 
         log.info(f"Starting extraction for: {file_path.name}")
         start_time = time.perf_counter()
 
         try:
-            # The conversion process
             loop = asyncio.get_running_loop()
-            result = await loop.run_in_executor(
-            self._executor, self.converter.convert, file_path
-        )
+            content, page_count, metadata = await loop.run_in_executor(
+                self._executor, self._extract_pdf_data, file_path
+            )
 
             end_time = time.perf_counter()
             total_duration = end_time - start_time
-
-            # Metadata extraction
-            page_count = (
-                len(result.document.pages) if hasattr(result.document, "pages") else 1
-            )
             avg_time_per_page = total_duration / page_count if page_count > 0 else 0
 
-            # Professional Granular Logging
             log.success(f"Extraction complete for {file_path.name}")
             log.info(f"Total Pages: {page_count}")
             log.info(f"Total Time: {total_duration:.2f}s")
             log.info(f"Avg Time Per Page: {avg_time_per_page:.2f}s")
 
             return ExtractionResult(
-                content=result.document.export_to_markdown(),
+                content=content,
                 page_count=page_count,
-                metadata=result.document.metadata.model_dump()
-                if hasattr(result.document, "metadata")
-                else {},
+                metadata=metadata,
                 processing_time_seconds=round(total_duration, 2),
             )
 

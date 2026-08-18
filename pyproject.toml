@@ -5,11 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "docling>=2.72.0",
     "fastapi[standard]>=0.128.3",
     "loguru>=0.7.3",
     "pydantic>=2.12.5",
     "pydantic-settings>=2.12.0",
+    "pymupdf>=1.28.2",
+    "pymupdf4llm>=1.28.2",
     "uvicorn>=0.40.0",
 ]
 
