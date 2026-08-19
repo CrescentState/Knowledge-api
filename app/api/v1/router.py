@@ -1,16 +1,35 @@
 import tempfile
 import uuid
+import tempfile
 from pathlib import Path
 
-from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, UploadFile
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, UploadFile, Query, status, File
 from loguru import logger
+from pydantic import BaseModel
 
-router = APIRouter(prefix="/documents", tags=["documents"])
+from app.schemas.document import ExtractionResult
+from app.services.document import DocumentProcessor
+from app.services.vector_service import VectorService
+
+router = APIRouter()
+document_processor = DocumentProcessor()
+vector_service = VectorService()
 
 # Configuration
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
 ALLOWED_CONTENT_TYPES = {"application/pdf"}
 
+class SearchResult(BaseModel):
+    id: int
+    document_name: str
+    chunk_index: int
+    content: str
+    similarity_score: float
+
+class SearchResponse(BaseModel):
+    query: str
+    results_count: int
+    results: list[SearchResult]
 
 # This is the "Worker" function that runs after the response is sent
 async def process_document_task(
@@ -35,7 +54,7 @@ async def process_document_task(
             logger.debug(f"Temporary file {file_path} removed.")
 
 
-@router.post("/upload", status_code=202)  # 202 = Accepted
+@router.post("/documents/upload", status_code=202)  # 202 = Accepted
 async def upload_document(
     request: Request, background_tasks: BackgroundTasks, file: UploadFile
 ) -> dict:
@@ -104,3 +123,60 @@ async def upload_document(
         "message": "File uploaded successfully. Processing has started in the background.",
         "filename": safe_filename,
     }
+
+@router.post(
+    "/process-pdf",
+    response_model=ExtractionResult,
+    status_code=status.HTTP_200_OK,
+)
+async def process_pdf_endpoint(file: UploadFile = File(...)):
+    if not file.filename.lower().endswith(".pdf"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Only PDF files are supported.",
+        )
+
+    # 1. Save uploaded file temporarily
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
+        content = await file.read()
+        tmp_file.write(content)
+        tmp_path = Path(tmp_file.name)
+
+    try:
+        # 2. Extract text/markdown using DocumentProcessor (PyMuPDF)
+        result = await document_processor.process_pdf(tmp_path)
+
+        # 3. Chunk, embed, and save chunks to PGVector
+        chunks_stored = vector_service.process_and_store(
+            document_name=file.filename,
+            content=result.content,
+        )
+        logger.info(f"Indexed {chunks_stored} chunks into PGVector for '{file.filename}'")
+
+        return result
+
+    except Exception as e:
+        logger.error(f"Processing failed for {file.filename}: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to process document: {str(e)}",
+        )
+    finally:
+        # Clean up temp file
+        if tmp_path.exists():
+            tmp_path.unlink()
+
+@router.get("/search", response_model=SearchResponse)
+async def search_documents(
+    q: str = Query(..., description="Semantic search query"),
+    top_k: int = Query(5, ge=1, le=20, description="Number of results to return")
+):
+    try:
+        matches = vector_service.search_similar_chunks(query=q, top_k=top_k)
+        return SearchResponse(
+            query=q,
+            results_count=len(matches),
+            results=matches
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Vector search failed: {str(e)}")

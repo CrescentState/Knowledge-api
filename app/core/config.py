@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Knowledge API"
     VERSION: str = "0.1.0"
     API_V1_STR: str = "/api/v1"
+    DATABASE_URL: str
 
     # Environment Logic
     DEBUG: bool = Field(default=False, description="Enable debug mode")
@@ -17,7 +18,7 @@ class Settings(BaseSettings):
 
     # Tell Pydantic to read from a .env file
     model_config = SettingsConfigDict(
-        env_file=".env", env_file_encoding="utf-8", case_sensitive=True
+        env_file=".env", env_file_encoding="utf-8", case_sensitive=True, extra="ignore",
     )
 
 

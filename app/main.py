@@ -8,6 +8,7 @@ from loguru import logger
 from app.api.v1.router import router as api_v1_router
 from app.core.config import settings
 from app.core.logging import setup_logging
+from app.core.database import init_db
 
 setup_logging()
 
@@ -15,6 +16,7 @@ setup_logging()
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     logger.info("🚀 Application startup complete (lazy model loading enabled)")
+    init_db()
     yield
     logger.info("🛑 Cleaning up resources...")
     if hasattr(app.state, "processor"):

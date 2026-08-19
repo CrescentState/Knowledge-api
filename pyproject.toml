@@ -7,10 +7,15 @@ requires-python = ">=3.12"
 dependencies = [
     "fastapi[standard]>=0.128.3",
     "loguru>=0.7.3",
+    "pgvector>=0.2.5",
+    "psycopg2-binary>=2.9.9",
     "pydantic>=2.12.5",
     "pydantic-settings>=2.12.0",
     "pymupdf>=1.28.2",
     "pymupdf4llm>=1.28.2",
+    "sentence-transformers>=2.6.0",
+    "torch>=2.13.0",
+    "transformers>=5.15.1",
     "uvicorn>=0.40.0",
 ]
 
