@@ -187,7 +187,8 @@ Create a `.env` file (optional — app starts without it):
 DEBUG=False
 PROJECT_NAME=Knowledge API
 VERSION=0.1.0
-OPENAI_API_KEY=          # Reserved for Phase 2; unused currently
+OPENAI_API_KEY=          
+DATABASE_API=                 # Reserved for Phase 2; unused currently
 ```
 
 ---
@@ -215,7 +216,7 @@ OPENAI_API_KEY=          # Reserved for Phase 2; unused currently
 ## Roadmap
 
 - [x] **Phase 1:** PDF upload → background extraction → logging
-- [ ] **Phase 2:** Persist extraction results (SQLite/PostgreSQL); add retrieval endpoints
+- [x] **Phase 2:** Persist extraction results (SQLite/PostgreSQL); add retrieval endpoints
 - [ ] **Phase 3:** LLM integration (OpenAI) for document summarization and Q&A
 - [ ] **Phase 4:** Vector embeddings + semantic search over processed documents
 - [ ] **Phase 5:** Multi-format support (images, Word docs, scanned PDFs with OCR)
