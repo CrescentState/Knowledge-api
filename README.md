@@ -18,7 +18,6 @@ A FastAPI prototype for asynchronous PDF document processing. Upload a PDF, get 
 
 **What it does NOT do yet:**
 
-- Store extraction results (no database)
 - Handle images or non-PDF files
 - Integrate with LLMs or vector stores
 - Provide retrieval endpoints for processed documents
